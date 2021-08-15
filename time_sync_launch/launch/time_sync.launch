@@ -1,0 +1,33 @@
+<launch>
+	<arg name="arg_Image_name_path" default="/home/jonas/namelist.txt"/>
+	<arg name="arg_Image_path" default="/home/jonas/FrontCamera01"/>
+	
+	<arg name="arg_model" default="32C"/>
+	<arg name="arg_pcap" default="/home/jonas/FrontLidar01.pcap"/>
+	
+	
+	<node pkg="time_sync" type="time_sync_node" name="msg_sync" output="screen"/>
+	
+	
+	<node pkg="velodyne_driver" type="velodyne_node" name="velodyne_drv"  >
+		<param name="pcap" value="$(arg arg_pcap)"/>
+		<param name="model" value="$(arg arg_model)"/>
+	</node>
+	
+	
+	<node pkg="velodyne_pointcloud" type="transform_node" name="transform">
+		<param name="model" value="$(arg arg_model)"/>
+	</node>
+	
+
+	
+
+	<node pkg="image_publisher" type="image_publisher_node" name="image_publisher">
+		<param name="Image_name_path" value="$(arg arg_Image_name_path)"/>
+		<param name="Image_path" value="$(arg arg_Image_path)"/>
+	</node>
+
+	
+	
+	
+</launch>
